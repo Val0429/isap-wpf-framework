@@ -71,14 +71,13 @@ namespace Library.Server {
         private static void OnImpValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
             var server = sender as iSAPServer;
             if (!DesignerProperties.GetIsInDesignMode(server)) server.Login();
-            //if (server.IP != null && server.Port != null && server.Account != null && server.Password != null) {
-            //}
         }
 
         private string sessionId { get; set; }
         private Boolean logginIn { get; set; }
         private BehaviorSubject<Boolean> sjLogined = new BehaviorSubject<bool>(false);
         public async void Login() {
+            if (this.logginIn == true) return;
             if (this.IP == null || this.Port == null || this.Account == null || this.Password == null) return;
             this.logginIn = true;
             var host = string.Format("http://{0}:{1}", IP, Port);
@@ -104,7 +103,7 @@ namespace Library.Server {
         }
 
         public async Task<List<ExpandoObject>> R(string path) {
-            if (this.logginIn == false) this.Login();
+            if (this.sjLogined.Value == false) this.Login();
             await (this.sjLogined as IObservable<Boolean>).Where( value => value == true ).FirstOrDefaultAsync();
             var host = string.Format("http://{0}:{1}", IP, Port);
             /// do login
@@ -112,15 +111,18 @@ namespace Library.Server {
             using (var client = new HttpClient()) {
                 var result = await client.GetAsync(uri);
                 var resultStr = await result.Content.ReadAsStringAsync();
-                if (result.StatusCode != System.Net.HttpStatusCode.OK) {
-                    MessageBox.Show(string.Format("{0} Failed", path));
+                if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized) {
+                    this.Login();
+                    return await this.R(path);
+                    
+                } else if (result.StatusCode != System.Net.HttpStatusCode.OK) {
+                    MessageBox.Show(string.Format("{0} Failed, Status Code: {1}, Message: {2}", path, result.StatusCode, resultStr));
                     return null;
                 }
                 var jsonSerializerx = new JavaScriptSerializer();
                 var rtn = jsonSerializerx.DeserializeObject(resultStr);
                 /// generate result
                 var list = new List<ExpandoObject>();
-                //for (var o in (rtn as IEnumerator<object>)[1]) {
                 var results = ((Dictionary<string, object>)rtn)["results"];
                 foreach (var o in (Object[])results) {
                     var obj = new ExpandoObject();
