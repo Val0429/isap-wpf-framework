@@ -103,6 +103,12 @@
     <Compile Include="Panels\RefVirtualizingWrapPanel.cs" />
     <Compile Include="Panels\VirtualizingWrapPanel.cs" />
     <Compile Include="Server\iSAPServer.cs" />
+    <Compile Include="Server\iSAPServer.Login.cs">
+      <DependentUpon>iSAPServer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Server\iSAPServer.R.cs">
+      <DependentUpon>iSAPServer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EmbedContainerWindow.cs" />
     <Compile Include="Windows\EmbedWindow.xaml.cs">
       <DependentUpon>EmbedWindow.xaml</DependentUpon>
