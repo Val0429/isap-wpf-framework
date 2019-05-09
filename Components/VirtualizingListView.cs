@@ -70,10 +70,14 @@ namespace Library.Components {
 
         private async void Fetch() {
             var result = await this.Server.R(this.Path);
-            if (this.Converter != null)
-                this.ItemsSource = result.Select(v => this.Converter.Convert(v, null, null, null));
-            else
-                this.ItemsSource = result;
+            dynamic obj = result;
+            if (this.Converter != null) {
+                //this.ItemsSource = result.Select(v => this.Converter.Convert(v, null, null, null));
+                //this.ItemsSource = obj.results;
+                this.ItemsSource = new List<object>(obj.results).Select(v => this.Converter.Convert(v, null, null, null)).ToArray();
+
+            } else
+                this.ItemsSource = obj.results;
         }
 
     }

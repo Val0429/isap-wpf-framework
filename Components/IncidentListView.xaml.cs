@@ -15,9 +15,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Library.Components {
-    public interface IIncidentListView {
-        string source { get; set; }
-        string time { get; set; }
+    public class IIncidentListView {
+        public string source { get; set; }
+        public string time { get; set; }
     }
     /// <summary>
     /// Interaction logic for IncidentListView.xaml

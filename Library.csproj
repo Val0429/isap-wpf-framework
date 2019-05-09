@@ -109,6 +109,9 @@
     <Compile Include="Server\iSAPServer.R.cs">
       <DependentUpon>iSAPServer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Server\iSAPServer.Converter.cs">
+      <DependentUpon>iSAPServer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\EmbedContainerWindow.cs" />
     <Compile Include="Windows\EmbedWindow.xaml.cs">
       <DependentUpon>EmbedWindow.xaml</DependentUpon>

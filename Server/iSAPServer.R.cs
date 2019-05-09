@@ -12,7 +12,7 @@ using System.Windows;
 namespace Library.Server {
     public partial class iSAPServer : DependencyObject {
 
-        public async Task<List<ExpandoObject>> R(string path) {
+        public async Task<object> R(string path) {
             if (this.sjLogined.Value == false) this.Login();
             await (this.sjLogined as IObservable<Boolean>).Where(value => value == true).FirstOrDefaultAsync();
             var host = string.Format("http://{0}:{1}", IP, Port);
@@ -32,18 +32,9 @@ namespace Library.Server {
                 var jsonSerializerx = new JavaScriptSerializer();
                 var rtn = jsonSerializerx.DeserializeObject(resultStr);
                 /// generate result
-                var list = new List<ExpandoObject>();
-                var results = ((Dictionary<string, object>)rtn)["results"];
-                foreach (var o in (Object[])results) {
-                    var obj = new ExpandoObject();
-                    var objc = (ICollection<KeyValuePair<string, object>>)obj;
-                    foreach (var kvp in (Dictionary<string, object>)o) {
-                        objc.Add(kvp);
-                    }
-                    list.Add(obj);
-                }
-                return list;
+                return convertServerResponse(rtn);
             }
         }
+
     }
 }
