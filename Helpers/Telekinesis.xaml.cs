@@ -101,6 +101,11 @@ namespace Library.Helpers {
                 /// Clean Parent
                 if (embedValue.parent.GetType() == typeof(ContentPresenter)) {
                     ((ContentPresenter)embedValue.parent).Content = null;
+                } else if (embedValue.parent is Panel) {
+                    var panel = (Panel)embedValue.parent;
+                    panel.Children.Remove((UIElement)embedValue.element);
+                } else {
+                    throw new Exception("Parent of Telekinesis object should be a <ContentPresenter> or <Panel>.");
                 }
 
                 /// Hook Event
@@ -133,6 +138,12 @@ namespace Library.Helpers {
                 /// Put Content back, if ContentPresenter
                 if (embedValue.parent.GetType() == typeof(ContentPresenter)) {
                     ((ContentPresenter)embedValue.parent).Content = embedValue.element;
+                } else if (embedValue.parent is Panel) {
+                    var panel = (Panel)embedValue.parent;
+                    embedValue.window.Content = null;
+                    var ele = (FrameworkElement)embedValue.element;
+                    ((ContentControl)ele.Parent).Content = null;
+                    panel.Children.Add((UIElement)embedValue.element);
                 }
 
                 /// Prepare storyboard
