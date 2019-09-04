@@ -18,5 +18,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="ListBox.ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
+
 </ResourceDictionary>

@@ -81,6 +81,8 @@
     <Compile Include="Components\IncidentListView.xaml.cs">
       <DependentUpon>IncidentListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ScrollViewers\CustomListView.cs" />
+    <Compile Include="Components\ScrollViewers\CustomScrollViewer.cs" />
     <Compile Include="Components\VideoPlayerClassic.xaml.cs">
       <DependentUpon>VideoPlayerClassic.xaml</DependentUpon>
     </Compile>
@@ -125,6 +127,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Helpers\Telekinesis.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Components\ScrollBars\CustomScrollBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Components\ScrollViewers\CustomListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Components\ScrollViewers\CustomScrollViewer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
