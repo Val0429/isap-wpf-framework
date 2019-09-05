@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:conv="clr-namespace:Library.Converters"
              xmlns:local="clr-namespace:Library.Components.Cards"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
@@ -12,58 +13,97 @@
 
     <UserControl.Resources>
         <conv:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+        <conv:MultiplyConverter x:Key="MultiplyConverter" />
     </UserControl.Resources>
-    
+
     <UserControl.Template>
-        <ControlTemplate TargetType="{x:Type UserControl}">
-            <Grid DataContext="{Binding ElementName=This}">
-                <Grid.Effect>
-                    <DropShadowEffect Color="DarkGoldenrod" Opacity="0.5" ShadowDepth="0" BlurRadius="25" />
-                </Grid.Effect>
-                <Border x:Name="mask" CornerRadius="4" BorderThickness="1" BorderBrush="#666" Background="#30333A">
-                    <!-- Fill up card radius top -->
-                    <Rectangle Height="34" VerticalAlignment="Top">
-                        <Rectangle.Fill>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <LinearGradientBrush.GradientStops>
-                                    <GradientStop Offset="0.0" Color="#5D616B" />
-                                    <GradientStop Offset="1.0" Color="#424447" />
-                                </LinearGradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Border>
-                <StackPanel Orientation="Vertical" Margin="1">
-                    <StackPanel.OpacityMask>
-                        <VisualBrush Visual="{Binding ElementName=mask}" />
-                    </StackPanel.OpacityMask>
-                    <Border BorderThickness="0,0,0,1" BorderBrush="#555">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <LinearGradientBrush.GradientStops>
-                                    <GradientStop Offset="0.0" Color="#5D616B" />
-                                    <GradientStop Offset="1.0" Color="#424447" />
-                                </LinearGradientBrush.GradientStops>
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <DockPanel LastChildFill="True" Height="34">
-                            <!-- Drop Button -->
-                            <Button DockPanel.Dock="Right" Click="Button_Click">
-                                <Button.Template>
-                                    <ControlTemplate>
-                                        <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0" />
-                                    </ControlTemplate>
-                                </Button.Template>
-                            </Button>
-                            <!-- Title -->
-                            <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0" Text="{Binding Label}" />
-                        </DockPanel>
-                    </Border>
-                    <ContentPresenter Visibility="{Binding Visible, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=collapse}" Content="{TemplateBinding Content}" />
-                </StackPanel>
-            </Grid>
-            
+        <ControlTemplate TargetType="UserControl">
+            <Expander IsExpanded="True">
+                <Expander.Template>
+                    <ControlTemplate TargetType="Expander">
+                        <Grid DataContext="{Binding ElementName=This}">
+                            <Grid.Effect>
+                                <DropShadowEffect Color="DarkGoldenrod" Opacity="0.5" ShadowDepth="0" BlurRadius="25" />
+                            </Grid.Effect>
+                            <Border x:Name="mask" CornerRadius="4" BorderThickness="1" BorderBrush="#666" Background="#30333A">
+                                <!-- Fill up card radius top -->
+                                <Rectangle Height="34" VerticalAlignment="Top">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0.0" Color="#5D616B" />
+                                                <GradientStop Offset="1.0" Color="#424447" />
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Border>
+                            <StackPanel x:Name="Main" Orientation="Vertical" Margin="1">
+                                <StackPanel.Tag>
+                                    <sys:Double>0.0</sys:Double>
+                                </StackPanel.Tag>
+                                <StackPanel.OpacityMask>
+                                    <VisualBrush Visual="{Binding ElementName=mask}" />
+                                </StackPanel.OpacityMask>
+                                <Border BorderThickness="0,0,0,1" BorderBrush="#555">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0.0" Color="#5D616B" />
+                                                <GradientStop Offset="1.0" Color="#424447" />
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <DockPanel LastChildFill="True" Height="34">
+                                        <!-- Drop Button -->
+                                        <Button DockPanel.Dock="Right" Click="Button_Click">
+                                            <Button.Template>
+                                                <ControlTemplate>
+                                                    <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0">
+                                                        <fa:ImageAwesome.Style>
+                                                            <!--Content Fade-In Animation-->
+                                                            <Style TargetType="{x:Type fa:ImageAwesome}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Visible}" Value="False">
+                                                                        <DataTrigger.EnterActions>
+                                                                            <StopStoryboard BeginStoryboardName="Storyboard2" />
+                                                                            <BeginStoryboard Name="Storyboard1">
+                                                                                <Storyboard>
+                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="180.0" To="360.0" Duration="0:0:0.2" />
+                                                                                </Storyboard>
+                                                                            </BeginStoryboard>
+                                                                        </DataTrigger.EnterActions>
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Visible}" Value="True">
+                                                                        <DataTrigger.EnterActions>
+                                                                            <StopStoryboard BeginStoryboardName="Storyboard1" />
+                                                                            <BeginStoryboard Name="Storyboard2">
+                                                                                <Storyboard>
+                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="0.0" To="180.0" Duration="0:0:0.2" />
+                                                                                </Storyboard>
+                                                                            </BeginStoryboard>
+                                                                        </DataTrigger.EnterActions>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </fa:ImageAwesome.Style>
+                                                    </fa:ImageAwesome>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+
+                                        <!--Title-->
+                                        <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0" Text="{Binding Label}" />
+                                    </DockPanel>
+                                </Border>
+                                <ContentPresenter x:Name="Content" Visibility="{Binding Visible, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=collapse}" Content="{Binding Content}" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Expander.Template>
+            </Expander>
+
         </ControlTemplate>
-    </UserControl.Template>    
+    </UserControl.Template>
     
 </UserControl>
