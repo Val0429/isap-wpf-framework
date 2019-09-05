@@ -20,5 +20,34 @@ namespace Library.Components.Cards {
         public Card() {
             InitializeComponent();
         }
+
+        #region Dependency Properties
+
+        public string Label {
+            get { return (string)GetValue(LabelProperty); }
+            set { SetValue(LabelProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Label.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LabelProperty =
+            DependencyProperty.Register("Label", typeof(string), typeof(Card), new PropertyMetadata(null));
+
+
+
+        public bool Visible {
+            get { return (bool)GetValue(VisibleProperty); }
+            set { SetValue(VisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Visible.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty VisibleProperty =
+            DependencyProperty.Register("Visible", typeof(bool), typeof(Card), new PropertyMetadata(true));
+
+
+        #endregion Dependency Properties
+
+        private void Button_Click(object sender, RoutedEventArgs e) {
+            Visible = !Visible;
+        }
     }
 }

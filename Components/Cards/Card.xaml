@@ -3,14 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:conv="clr-namespace:Library.Converters"
              xmlns:local="clr-namespace:Library.Components.Cards"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
              mc:Ignorable="d" 
+             x:Name="This"
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <conv:NullVisibilityConverter x:Key="NullVisibilityConverter" />
+    </UserControl.Resources>
+    
     <UserControl.Template>
-        <ControlTemplate TargetType="UserControl">
-            <Grid>
+        <ControlTemplate TargetType="{x:Type UserControl}">
+            <Grid DataContext="{Binding ElementName=This}">
+                <Grid.Effect>
+                    <DropShadowEffect Color="DarkGoldenrod" Opacity="0.5" ShadowDepth="0" BlurRadius="25" />
+                </Grid.Effect>
                 <Border x:Name="mask" CornerRadius="4" BorderThickness="1" BorderBrush="#666" Background="#30333A">
                     <!-- Fill up card radius top -->
                     <Rectangle Height="34" VerticalAlignment="Top">
@@ -39,112 +48,22 @@
                         </Border.Background>
                         <DockPanel LastChildFill="True" Height="34">
                             <!-- Drop Button -->
-                            <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0" />
+                            <Button DockPanel.Dock="Right" Click="Button_Click">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <!-- Title -->
-                            <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0">Information</TextBlock>
+                            <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0" Text="{Binding Label}" />
                         </DockPanel>
                     </Border>
-                    <ContentPresenter Content="{TemplateBinding Content}" />
+                    <ContentPresenter Visibility="{Binding Visible, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=collapse}" Content="{TemplateBinding Content}" />
                 </StackPanel>
             </Grid>
             
-            <!--<Expander Content="{TemplateBinding Content}">
-                <Expander.Template>
-                    <ControlTemplate TargetType="Expander">
-                        <Grid>
-                            <Border x:Name="mask" CornerRadius="4" BorderThickness="1" BorderBrush="#666" Background="#30333A">
-                                --><!-- Fill up card radius top --><!--
-                                <Rectangle Height="34" VerticalAlignment="Top">
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <LinearGradientBrush.GradientStops>
-                                                <GradientStop Offset="0.0" Color="#5D616B" />
-                                                <GradientStop Offset="1.0" Color="#424447" />
-                                            </LinearGradientBrush.GradientStops>
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
-                            </Border>
-                            <StackPanel Orientation="Vertical" Margin="1">
-                                <StackPanel.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=mask}" />
-                                </StackPanel.OpacityMask>
-                                <Border BorderThickness="0,0,0,1" BorderBrush="#555">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <LinearGradientBrush.GradientStops>
-                                                <GradientStop Offset="0.0" Color="#5D616B" />
-                                                <GradientStop Offset="1.0" Color="#424447" />
-                                            </LinearGradientBrush.GradientStops>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                    <DockPanel LastChildFill="True" Height="34">
-                                        --><!-- Drop Button --><!--
-                                        <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0" />
-                                        --><!-- Title --><!--
-                                        <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0">Information</TextBlock>
-                                    </DockPanel>
-                                </Border>
-                                <ContentPresenter Content="{TemplateBinding Content}" />
-                            </StackPanel>
-                        </Grid>
-                    </ControlTemplate>
-                </Expander.Template>
-            </Expander>-->
         </ControlTemplate>
     </UserControl.Template>    
     
-    <!--<UserControl.Style>
-        <Style TargetType="UserControl">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="UserControl">
-                        <Expander Content="{TemplateBinding Content}">
-                            <Expander.Template>
-                                <ControlTemplate TargetType="Expander">
-                                    <Grid>
-                                        <Border x:Name="mask" CornerRadius="4" BorderThickness="1" BorderBrush="#666" Background="#30333A">
-                                            --><!-- Fill up card radius top --><!--
-                                            <Rectangle Height="34" VerticalAlignment="Top">
-                                                <Rectangle.Fill>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                        <LinearGradientBrush.GradientStops>
-                                                            <GradientStop Offset="0.0" Color="#5D616B" />
-                                                            <GradientStop Offset="1.0" Color="#424447" />
-                                                        </LinearGradientBrush.GradientStops>
-                                                    </LinearGradientBrush>
-                                                </Rectangle.Fill>
-                                            </Rectangle>
-                                        </Border>
-                                        <StackPanel Orientation="Vertical" Margin="1">
-                                            <StackPanel.OpacityMask>
-                                                <VisualBrush Visual="{Binding ElementName=mask}" />
-                                            </StackPanel.OpacityMask>
-                                            <Border BorderThickness="0,0,0,1" BorderBrush="#555">
-                                                <Border.Background>
-                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                        <LinearGradientBrush.GradientStops>
-                                                            <GradientStop Offset="0.0" Color="#5D616B" />
-                                                            <GradientStop Offset="1.0" Color="#424447" />
-                                                        </LinearGradientBrush.GradientStops>
-                                                    </LinearGradientBrush>
-                                                </Border.Background>
-                                                <DockPanel LastChildFill="True" Height="34">
-                                                    --><!-- Drop Button --><!--
-                                                    <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0" />
-                                                    --><!-- Title --><!--
-                                                    <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0">Information</TextBlock>
-                                                </DockPanel>
-                                            </Border>
-                                            <ContentPresenter Content="{TemplateBinding Content}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </ControlTemplate>
-                            </Expander.Template>
-                        </Expander>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Style>-->
 </UserControl>
