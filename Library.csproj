@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\SIS2\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Jurassic, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jurassic.2.2.2\lib\net35\Jurassic.dll</HintPath>
       <Private>True</Private>
@@ -78,8 +82,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\IncidentListView.xaml.cs">
-      <DependentUpon>IncidentListView.xaml</DependentUpon>
+    <Compile Include="Components\Cards\Card.xaml.cs">
+      <DependentUpon>Card.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\ScrollViewers\CustomListView.cs" />
     <Compile Include="Components\ScrollViewers\CustomScrollViewer.cs" />
@@ -118,7 +122,7 @@
     <Compile Include="Windows\EmbedWindow.xaml.cs">
       <DependentUpon>EmbedWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Components\IncidentListView.xaml">
+    <Page Include="Components\Cards\Card.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

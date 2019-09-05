@@ -1,6 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sv="clr-namespace:Library.Components.ScrollViewers"
                     xmlns:local="clr-namespace:Library.Components">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Library;component/Themes/Components/ScrollBars/CustomScrollBar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="{x:Type local:VirtualizingListView}">
         <Setter Property="ListView.ItemsPanel">
             <Setter.Value>
@@ -9,12 +15,16 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="ListView.Template">
+        <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate>
-                    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
+                <ControlTemplate TargetType="{x:Type local:VirtualizingListView}">
+                    <sv:CustomScrollViewer ScrollBarMargin="{TemplateBinding ScrollBarMargin}" ScrollContentMargin="{TemplateBinding ScrollContentMargin}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    </sv:CustomScrollViewer>
+
+                    <!--<ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" CanContentScroll="True">
                         <ItemsPresenter />
-                    </ScrollViewer>
+                    </ScrollViewer>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

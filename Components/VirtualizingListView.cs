@@ -1,4 +1,5 @@
-﻿using Library.Server;
+﻿using Library.Components.ScrollViewers;
+using Library.Server;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,8 +49,6 @@ namespace Library.Components {
                 ));
 
 
-
-
         public IValueConverter Converter {
             get { return (IValueConverter)GetValue(ConverterProperty); }
             set { SetValue(ConverterProperty, value); }
@@ -59,7 +58,28 @@ namespace Library.Components {
         public static readonly DependencyProperty ConverterProperty =
             DependencyProperty.Register("Converter", typeof(IValueConverter), typeof(VirtualizingListView));
 
+
+        public Thickness ScrollBarMargin {
+            get { return (Thickness)GetValue(ScrollBarMarginProperty); }
+            set { SetValue(ScrollBarMarginProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ScrollBarMargin.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScrollBarMarginProperty =
+            DependencyProperty.Register("ScrollBarMargin", typeof(Thickness), typeof(VirtualizingListView), new PropertyMetadata(new Thickness(0)));
+
+
+        public Thickness ScrollContentMargin {
+            get { return (Thickness)GetValue(ScrollContentMarginProperty); }
+            set { SetValue(ScrollContentMarginProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ScrollContentMargin.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScrollContentMarginProperty =
+            DependencyProperty.Register("ScrollContentMargin", typeof(Thickness), typeof(VirtualizingListView), new PropertyMetadata(new Thickness(0)));
+
         #endregion Dependency Properties
+
 
         private static void OnImpValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
             var obj = sender as VirtualizingListView;

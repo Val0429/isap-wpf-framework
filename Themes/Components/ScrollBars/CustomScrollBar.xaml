@@ -11,7 +11,21 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
                     <Border Background="Transparent">
-                        <Rectangle Fill="#FF3CD8BB" Width="2" />
+                        <!--<Rectangle Fill="#FF3CD8BB" Width="1" />-->
+                        <Rectangle Width="10">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.0" Color="Transparent" />
+                                        <GradientStop Offset="0.40" Color="#55333333" />
+                                        <GradientStop Offset="0.40" Color="#FF3CD8BB" />
+                                        <GradientStop Offset="0.60" Color="#FF3CD8BB" />
+                                        <GradientStop Offset="0.60" Color="#55333333" />
+                                        <GradientStop Offset="1.0" Color="Transparent" />
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -23,7 +37,20 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Grid>
-                        <Rectangle Fill="Transparent" Width="1"/>
+                        <Rectangle Width="1" Fill="Transparent" />
+                        <!--<Rectangle Width="10">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.0" Color="Transparent" />
+                                        <GradientStop Offset="0.1" Color="#11111111" />
+                                        <GradientStop Offset="0.5" Color="#AA111111" />
+                                        <GradientStop Offset="0.9" Color="#11111111" />
+                                        <GradientStop Offset="1.0" Color="Transparent" />
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>-->
                         <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true" ViewportSize="0">
                             <Track.Effect>
                                 <DropShadowEffect BlurRadius="12" Opacity="0.7" Color="LemonChiffon" ShadowDepth="0" />
