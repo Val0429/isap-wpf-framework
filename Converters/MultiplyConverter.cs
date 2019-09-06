@@ -15,7 +15,6 @@ namespace Library.Converters {
                 if (values[i] is double)
                     result *= (double)values[i];
             }
-
             return result;
         }
 

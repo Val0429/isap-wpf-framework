@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:sysw="http://schemas.microsoft.com/netfx/2007/xaml/presentation"
              xmlns:conv="clr-namespace:Library.Converters"
              xmlns:local="clr-namespace:Library.Components.Cards"
              xmlns:fa="http://schemas.fontawesome.io/icons/"
@@ -14,11 +15,14 @@
     <UserControl.Resources>
         <conv:NullVisibilityConverter x:Key="NullVisibilityConverter" />
         <conv:MultiplyConverter x:Key="MultiplyConverter" />
+        <conv:TagCollapsingConverter x:Key="TagCollapsingConverter" />
+        <sysw:Duration x:Key="AnimationDuration">0:0:0.2</sysw:Duration>
+        <sys:Double x:Key="TagDefault">3</sys:Double>
     </UserControl.Resources>
 
     <UserControl.Template>
         <ControlTemplate TargetType="UserControl">
-            <Expander IsExpanded="True">
+            <Expander x:Name="Expander" IsExpanded="{Binding Visible, ElementName=This}">
                 <Expander.Template>
                     <ControlTemplate TargetType="Expander">
                         <Grid DataContext="{Binding ElementName=This}">
@@ -39,12 +43,10 @@
                                 </Rectangle>
                             </Border>
                             <StackPanel x:Name="Main" Orientation="Vertical" Margin="1">
-                                <StackPanel.Tag>
-                                    <sys:Double>0.0</sys:Double>
-                                </StackPanel.Tag>
                                 <StackPanel.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=mask}" />
                                 </StackPanel.OpacityMask>
+
                                 <Border BorderThickness="0,0,0,1" BorderBrush="#555">
                                     <Border.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -56,7 +58,7 @@
                                     </Border.Background>
                                     <DockPanel LastChildFill="True" Height="34">
                                         <!-- Drop Button -->
-                                        <Button DockPanel.Dock="Right" Click="Button_Click">
+                                        <Button DockPanel.Dock="Right" Click="Button_Click" Cursor="Hand">
                                             <Button.Template>
                                                 <ControlTemplate>
                                                     <fa:ImageAwesome DockPanel.Dock="Right" Icon="CaretDown" Foreground="White" Width="20" Height="20" Margin="0,0,10,0">
@@ -69,7 +71,7 @@
                                                                             <StopStoryboard BeginStoryboardName="Storyboard2" />
                                                                             <BeginStoryboard Name="Storyboard1">
                                                                                 <Storyboard>
-                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="180.0" To="360.0" Duration="0:0:0.2" />
+                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="180.0" To="360.0" Duration="{StaticResource AnimationDuration}" />
                                                                                 </Storyboard>
                                                                             </BeginStoryboard>
                                                                         </DataTrigger.EnterActions>
@@ -79,7 +81,7 @@
                                                                             <StopStoryboard BeginStoryboardName="Storyboard1" />
                                                                             <BeginStoryboard Name="Storyboard2">
                                                                                 <Storyboard>
-                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="0.0" To="180.0" Duration="0:0:0.2" />
+                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="0.0" To="180.0" Duration="{StaticResource AnimationDuration}" />
                                                                                 </Storyboard>
                                                                             </BeginStoryboard>
                                                                         </DataTrigger.EnterActions>
@@ -96,9 +98,62 @@
                                         <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0" Text="{Binding Label}" />
                                     </DockPanel>
                                 </Border>
-                                <ContentPresenter x:Name="Content" Visibility="{Binding Visible, Converter={StaticResource NullVisibilityConverter}, ConverterParameter=collapse}" Content="{Binding Content}" />
+                                <ScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                                    <ScrollViewer.Tag>
+                                        <sys:Double>3.0</sys:Double>
+                                    </ScrollViewer.Tag>
+                                    <!--<ScrollViewer.Height>
+                                        <MultiBinding Converter="{StaticResource MultiplyConverter}">
+                                            <Binding Path="ActualHeight" ElementName="Content" />
+                                            <Binding Path="Tag" ElementName="Viewer" />
+                                        </MultiBinding>
+                                    </ScrollViewer.Height>-->
+                                    <ContentPresenter x:Name="Content" Content="{Binding Content}" />
+                                </ScrollViewer>
                             </StackPanel>
                         </Grid>
+
+                        <!-- Height Animation -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="True">
+                                <Trigger.EnterActions>
+                                    <StopStoryboard BeginStoryboardName="StoryTag2" />
+                                    <BeginStoryboard Name="StoryTag1">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Viewer" Storyboard.TargetProperty="Tag" From="0" To="1" Duration="{StaticResource AnimationDuration}" FillBehavior="Stop" Completed="DoubleAnimation_Completed" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <Trigger Property="IsExpanded" Value="False">
+                                <Trigger.EnterActions>
+                                    <StopStoryboard BeginStoryboardName="StoryTag1" />
+                                    <BeginStoryboard Name="StoryTag2">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="Viewer" Storyboard.TargetProperty="Tag" From="1" To="0" Duration="{StaticResource AnimationDuration}" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding Path=Tag, ElementName=Viewer, Converter={StaticResource TagCollapsingConverter}}">
+                                <DataTrigger.Value>false</DataTrigger.Value>
+                                <Setter TargetName="Viewer" Property="Height" Value="NaN" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=Tag, ElementName=Viewer, Converter={StaticResource TagCollapsingConverter}}">
+                                <DataTrigger.Value>true</DataTrigger.Value>
+                                <Setter TargetName="Viewer" Property="Height">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource MultiplyConverter}">
+                                            <Binding Path="ActualHeight" ElementName="Content" />
+                                            <Binding Path="Tag" ElementName="Viewer" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+
+                        </ControlTemplate.Triggers>
+
                     </ControlTemplate>
                 </Expander.Template>
             </Expander>

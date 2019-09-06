@@ -49,5 +49,11 @@ namespace Library.Components.Cards {
         private void Button_Click(object sender, RoutedEventArgs e) {
             Visible = !Visible;
         }
+
+        private void DoubleAnimation_Completed(object sender, EventArgs e) {
+            var expander = Template.FindName("Expander", this) as Expander;
+            var viewer = expander.Template.FindName("Viewer", expander) as FrameworkElement;
+            viewer.Tag = 3.0;
+        }
     }
 }
