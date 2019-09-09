@@ -16,7 +16,7 @@
         <conv:NullVisibilityConverter x:Key="NullVisibilityConverter" />
         <conv:MultiplyConverter x:Key="MultiplyConverter" />
         <conv:TagCollapsingConverter x:Key="TagCollapsingConverter" />
-        <sysw:Duration x:Key="AnimationDuration">0:0:0.2</sysw:Duration>
+        <sysw:Duration x:Key="AnimationDuration">0:0:0.15</sysw:Duration>
         <sys:Double x:Key="TagDefault">3</sys:Double>
     </UserControl.Resources>
 
@@ -98,10 +98,10 @@
                                         <TextBlock VerticalAlignment="Center" Foreground="#EEE" FontSize="16" FontWeight="Bold" Margin="15,0,0,0" Text="{Binding Label}" />
                                     </DockPanel>
                                 </Border>
-                                <ScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-                                    <ScrollViewer.Tag>
+                                <local:MyScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+                                    <local:MyScrollViewer.Tag>
                                         <sys:Double>3.0</sys:Double>
-                                    </ScrollViewer.Tag>
+                                    </local:MyScrollViewer.Tag>
                                     <!--<ScrollViewer.Height>
                                         <MultiBinding Converter="{StaticResource MultiplyConverter}">
                                             <Binding Path="ActualHeight" ElementName="Content" />
@@ -109,7 +109,7 @@
                                         </MultiBinding>
                                     </ScrollViewer.Height>-->
                                     <ContentPresenter x:Name="Content" Content="{Binding Content}" />
-                                </ScrollViewer>
+                                </local:MyScrollViewer>
                             </StackPanel>
                         </Grid>
 
