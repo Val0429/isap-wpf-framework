@@ -8,6 +8,8 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type local:VirtualizingListView}">
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="True" />
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
         <Setter Property="ListView.ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -18,8 +20,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:VirtualizingListView}">
-                    <sv:CustomScrollViewer ScrollBarMargin="{TemplateBinding ScrollBarMargin}" ScrollContentMargin="{TemplateBinding ScrollContentMargin}">
-                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    <sv:CustomScrollViewer ScrollBarMargin="{TemplateBinding ScrollBarMargin}" ScrollContentMargin="{TemplateBinding ScrollContentMargin}" CanContentScroll="True">
+                        <ItemsPresenter />
                     </sv:CustomScrollViewer>
 
                     <!--<ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" CanContentScroll="True">

@@ -66,7 +66,7 @@
                                                             <!--Content Fade-In Animation-->
                                                             <Style TargetType="{x:Type fa:ImageAwesome}">
                                                                 <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Visible}" Value="False">
+                                                                    <!--<DataTrigger Binding="{Binding Visible}" Value="False">
                                                                         <DataTrigger.EnterActions>
                                                                             <StopStoryboard BeginStoryboardName="Storyboard2" />
                                                                             <BeginStoryboard Name="Storyboard1">
@@ -85,7 +85,25 @@
                                                                                 </Storyboard>
                                                                             </BeginStoryboard>
                                                                         </DataTrigger.EnterActions>
+                                                                    </DataTrigger>-->
+
+                                                                    <DataTrigger Binding="{Binding Visible}" Value="True">
+                                                                        <DataTrigger.EnterActions>
+                                                                            <BeginStoryboard Name="Storyboard1">
+                                                                                <Storyboard>
+                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="0.0" To="180.0" Duration="{StaticResource AnimationDuration}" />
+                                                                                </Storyboard>
+                                                                            </BeginStoryboard>
+                                                                        </DataTrigger.EnterActions>
+                                                                        <DataTrigger.ExitActions>
+                                                                            <BeginStoryboard Name="Storyboard2">
+                                                                                <Storyboard>
+                                                                                    <DoubleAnimation Storyboard.TargetProperty="Rotation" From="180.0" To="360.0" Duration="{StaticResource AnimationDuration}" />
+                                                                                </Storyboard>
+                                                                            </BeginStoryboard>
+                                                                        </DataTrigger.ExitActions>
                                                                     </DataTrigger>
+
                                                                 </Style.Triggers>
                                                             </Style>
                                                         </fa:ImageAwesome.Style>
@@ -117,23 +135,19 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsExpanded" Value="True">
                                 <Trigger.EnterActions>
-                                    <StopStoryboard BeginStoryboardName="StoryTag2" />
                                     <BeginStoryboard Name="StoryTag1">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="Viewer" Storyboard.TargetProperty="Tag" From="0" To="1" Duration="{StaticResource AnimationDuration}" FillBehavior="Stop" Completed="DoubleAnimation_Completed" />
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </Trigger.EnterActions>
-                            </Trigger>
-                            <Trigger Property="IsExpanded" Value="False">
-                                <Trigger.EnterActions>
-                                    <StopStoryboard BeginStoryboardName="StoryTag1" />
+                                <Trigger.ExitActions>
                                     <BeginStoryboard Name="StoryTag2">
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="Viewer" Storyboard.TargetProperty="Tag" From="1" To="0" Duration="{StaticResource AnimationDuration}" />
                                         </Storyboard>
                                     </BeginStoryboard>
-                                </Trigger.EnterActions>
+                                </Trigger.ExitActions>
                             </Trigger>
 
                             <DataTrigger Binding="{Binding Path=Tag, ElementName=Viewer, Converter={StaticResource TagCollapsingConverter}}">
