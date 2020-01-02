@@ -23,7 +23,7 @@
                         </Grid.RowDefinitions>
                         <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
                         <ScrollContentPresenter Grid.Column="0" Grid.Row="0" Margin="{TemplateBinding ScrollContentMargin}" Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" CanContentScroll="{TemplateBinding ScrollViewer.CanContentScroll}" />
-                        <ScrollBar x:Name="PART_VerticalScrollBar" Style="{StaticResource CustomScrollbar}" Margin="{TemplateBinding ScrollBarMargin}" Grid.Column="1" Grid.Row="0" Minimum="0" Maximum="{TemplateBinding ScrollViewer.ScrollableHeight}" ViewportSize="{TemplateBinding ScrollViewer.ViewportHeight}" Value="{Binding Path=VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="{TemplateBinding ScrollViewer.ComputedVerticalScrollBarVisibility}" Cursor="Arrow" AutomationProperties.AutomationId="VerticalScrollBar" />
+                        <ScrollBar x:Name="PART_VerticalScrollBar" Style="{DynamicResource CustomScrollbar}" Margin="{TemplateBinding ScrollBarMargin}" Grid.Column="1" Grid.Row="0" Minimum="0" Maximum="{TemplateBinding ScrollViewer.ScrollableHeight}" ViewportSize="{TemplateBinding ScrollViewer.ViewportHeight}" Value="{Binding Path=VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="{TemplateBinding ScrollViewer.ComputedVerticalScrollBarVisibility}" Cursor="Arrow" AutomationProperties.AutomationId="VerticalScrollBar" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="UIElement.IsEnabled">

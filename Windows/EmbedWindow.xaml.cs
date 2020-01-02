@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -61,6 +63,27 @@ namespace Library.Windows {
                     };
                     this._window.SetBinding(HeightProperty, binding);
                 }
+                {
+                    Binding binding = new Binding("MinWidth") {
+                        Source = this,
+                        Mode = BindingMode.OneWay
+                    };
+                    this._window.SetBinding(MinWidthProperty, binding);
+                }
+                {
+                    Binding binding = new Binding("MinHeight") {
+                        Source = this,
+                        Mode = BindingMode.OneWay
+                    };
+                    this._window.SetBinding(MinHeightProperty, binding);
+                }
+                {
+                    Binding binding = new Binding("Icon") {
+                        Source = this,
+                        Mode = BindingMode.OneWay
+                    };
+                    this._window.SetBinding(Window.IconProperty, binding);
+                }
 
                 this._window.Unloaded += (object s2, RoutedEventArgs e2) => {
                     (this.Parent as Panel)?.Children.Remove(this);
@@ -74,6 +97,14 @@ namespace Library.Windows {
             this.Unloaded += (object sender, RoutedEventArgs e) => {
                 this._window?.Close();
             };
+        }
+
+
+        [DllImport("User32.dll")]
+        public static extern Int32 SetForegroundWindow(int hWnd);
+        public void BringToFront() {
+            var hwnd = new WindowInteropHelper(_window).Handle;
+            SetForegroundWindow(hwnd.ToInt32());
         }
 
         #region "Dependency Property"
@@ -110,6 +141,15 @@ namespace Library.Windows {
         // Using a DependencyProperty as the backing store for HeightRatio.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HeightRatioProperty =
             DependencyProperty.Register("HeightRatio", typeof(double), typeof(EmbedWindow), new PropertyMetadata(0.5));
+
+        public ImageSource Icon {
+            get { return (ImageSource)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(ImageSource), typeof(EmbedWindow), new PropertyMetadata(null));
 
         #endregion "Dependency Property"
     }

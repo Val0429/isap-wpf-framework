@@ -66,7 +66,7 @@ namespace Library.Server {
 
         private static void OnImpValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e) {
             var server = sender as iSAPServer;
-            if (!DesignerProperties.GetIsInDesignMode(server)) server.Login();
+            //if (!DesignerProperties.GetIsInDesignMode(server)) server.Login();
         }
 
     }

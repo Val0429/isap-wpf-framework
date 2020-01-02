@@ -96,9 +96,11 @@
       <DependentUpon>VideoPlayerClassic.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\VirtualizingListView.cs" />
+    <Compile Include="Converters\CloneConverter.cs" />
     <Compile Include="Converters\ContractColorConverter.cs" />
     <Compile Include="Converters\DrawingBitmapToWpfConverter.cs" />
     <Compile Include="Converters\ImageConverter.cs" />
+    <Compile Include="Converters\MethodToValueConverter.cs" />
     <Compile Include="Converters\MinutesToReadableConverter.cs" />
     <Compile Include="Converters\MultiplyConverter.cs" />
     <Compile Include="Converters\NullVisibilityConverter.cs" />
@@ -108,7 +110,10 @@
     <Compile Include="Converters\TagCollapsingConverter.cs" />
     <Compile Include="Converters\UnixTimestampToDateStringConverter.cs" />
     <Compile Include="Converters\ZeroVisibilityConverter.cs" />
+    <Compile Include="DataStructure\ObservableDictionary.cs" />
+    <Compile Include="Extensions\BindingResourceExtension.cs" />
     <Compile Include="Extensions\ScrollViewerExtension.cs" />
+    <Compile Include="Helpers\BindingProxy.cs" />
     <Compile Include="Helpers\BubbleScrollEvent.cs" />
     <Compile Include="Helpers\DependencyPropertyListener.cs" />
     <Compile Include="Helpers\Diag.cs" />

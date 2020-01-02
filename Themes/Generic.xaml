@@ -8,6 +8,7 @@
         <ResourceDictionary Source="/Library;component/Themes/Components/VirtualizingListView.xaml" />
         <ResourceDictionary Source="/Library;component/Themes/Components/ScrollViewers/CustomScrollViewer.xaml" />
         <ResourceDictionary Source="/Library;component/Themes/Components/ScrollViewers/CustomListView.xaml" />
+        <ResourceDictionary Source="/Library;component/Themes/Components/ScrollBars/CustomScrollBar.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
