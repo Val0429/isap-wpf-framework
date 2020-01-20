@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="Library.Windows.ModalWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Library.Windows"
+             mc:Ignorable="d"
+             x:Name="This"
+             d:DesignHeight="0" d:DesignWidth="0" MaxWidth="0" MaxHeight="0">
+
+    <Grid x:Name="Container">
+        <Grid x:Name="Main" DataContext="{Binding ElementName=This}">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="#DD272728" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsShow}" Value="True">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.300" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <ContentPresenter Content="{Binding Content}" />
+        </Grid>
+    </Grid>
+    
+</UserControl>
