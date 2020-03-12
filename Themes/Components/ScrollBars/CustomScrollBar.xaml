@@ -32,6 +32,37 @@
         </Setter>
     </Style>
 
+
+    <Style x:Key="ScrollBarHorizontalPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="IsTabStop" Value="false"/>
+        <Setter Property="Focusable" Value="false"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent">
+                        <!--<Rectangle Fill="#FF3CD8BB" Width="1" />-->
+                        <Rectangle Height="10">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.0" Color="Transparent" />
+                                        <GradientStop Offset="0.40" Color="#55333333" />
+                                        <GradientStop Offset="0.40" Color="#FF3CD8BB" />
+                                        <GradientStop Offset="0.60" Color="#FF3CD8BB" />
+                                        <GradientStop Offset="0.60" Color="#55333333" />
+                                        <GradientStop Offset="1.0" Color="Transparent" />
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="CustomScrollbar" TargetType="{x:Type ScrollBar}">
         <Setter Property="Template">
             <Setter.Value>
@@ -97,4 +128,56 @@
         </Setter>
     </Style>
 
+    <Style x:Key="CustomHorizontalScrollbar" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid>
+                        <Rectangle Width="1" Fill="Transparent" />
+
+                        <Track Name="PART_Track" Grid.Column="1" IsDirectionReversed="false" ViewportSize="0">
+                            <Track.Effect>
+                                <DropShadowEffect BlurRadius="12" Opacity="0.7" Color="LemonChiffon" ShadowDepth="0" />
+                            </Track.Effect>
+
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton 
+                                    Style="{DynamicResource ScrollBarHorizontalPageButton}"
+                                    Command="ScrollBar.PageUpCommand" />
+                            </Track.DecreaseRepeatButton>
+
+                            <Track.Thumb>
+                                <Thumb 
+                                    Margin="0,1,0,1"
+                                    Width="5"
+                                    SnapsToDevicePixels="True"
+                                    OverridesDefaultStyle="True"
+                                    IsTabStop="False"
+                                    Focusable="False"
+                                    Background="#FF00FFFF"
+                                >
+                                    <Thumb.Effect>
+                                        <DropShadowEffect BlurRadius="10" Color="White" ShadowDepth="0" />
+                                    </Thumb.Effect>
+
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Border CornerRadius="1"
+                                            Background="#FF00FFFF" />
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton 
+                            Style="{DynamicResource ScrollBarHorizontalPageButton}"
+                            Command="ScrollBar.PageDownCommand" />
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

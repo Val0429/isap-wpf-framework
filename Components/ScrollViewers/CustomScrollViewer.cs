@@ -29,6 +29,14 @@ namespace Library.Components.ScrollViewers {
         public static readonly DependencyProperty ScrollBarMarginProperty =
             DependencyProperty.Register("ScrollBarMargin", typeof(Thickness), typeof(CustomScrollViewer), new PropertyMetadata(new Thickness(0)));
 
+        public Thickness ScrollBarHorizontalMargin {
+            get { return (Thickness)GetValue(ScrollBarHorizontalMarginProperty); }
+            set { SetValue(ScrollBarHorizontalMarginProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ScrollBarHorizontalMargin.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ScrollBarHorizontalMarginProperty =
+            DependencyProperty.Register("ScrollBarHorizontalMargin", typeof(Thickness), typeof(CustomScrollViewer), new PropertyMetadata(new Thickness(0)));
 
         public Thickness ScrollContentMargin {
             get { return (Thickness)GetValue(ScrollContentMarginProperty); }

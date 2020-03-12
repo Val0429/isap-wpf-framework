@@ -102,9 +102,15 @@ namespace Library.Windows {
 
         [DllImport("User32.dll")]
         public static extern Int32 SetForegroundWindow(int hWnd);
+        [DllImport("User32.dll", CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool ShowWindow(int hWnd, int nCmdShow);
+        private const int SW_MAXIMIZE = 3;
+
         public void BringToFront() {
             var hwnd = new WindowInteropHelper(_window).Handle;
             SetForegroundWindow(hwnd.ToInt32());
+            ShowWindow(hwnd.ToInt32(), SW_MAXIMIZE);
         }
 
         #region "Dependency Property"
